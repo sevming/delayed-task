@@ -2,6 +2,11 @@
 1. 商城下单后,30分钟未支付则自动取消订单(类似订单自动退款|自动收货等都一样)
 2. 实现通知失败, 0|30|60|150... 重复通知,直到对方回复
 
+#### 参考
+1. [有赞延迟队列设计](https://tech.youzan.com/queuing_delay)
+2. [chenlinzhong/php-delayqueue](https://github.com/chenlinzhong/php-delayqueue)
+3. [基于redis的延迟消息队列设计](https://www.cnblogs.com/peachyy/p/7398430.html)
+
 ---
 
 #### 启动服务端
