@@ -2,6 +2,8 @@
 1. 商城下单后,30分钟未支付则自动取消订单(类似订单自动退款|自动收货等都一样)
 2. 实现通知失败, 0|30|60|150... 重复通知,直到对方回复
 
+---
+
 #### 参考
 1. [有赞延迟队列设计](https://tech.youzan.com/queuing_delay)
 2. [chenlinzhong/php-delayqueue](https://github.com/chenlinzhong/php-delayqueue)
@@ -26,7 +28,7 @@ try {
 }
 ```
 
-#### 客户端
+#### 客户端 (call、callback 调用类方法通过composer自动加载)
 ``` php
 <?php
 use Sevming\DelayedTask\TaskClient;
@@ -88,5 +90,41 @@ try {
     $client->del('order:return', 1);
 } catch (Exception $e) {
     exit($e->getMessage());
+}
+```
+
+#### Order 类
+``` php
+<?php
+
+class Order
+{
+    public function return(array $task)
+    {
+        echo __FUNCTION__ . ",id={$task['id']},createTime={$task['createTime']},count={$task['rule']['count']},runTime="  . date('Y-m-d H:i:s') . PHP_EOL;
+        // 返回success,则任务结束
+        return 'success';
+    }
+
+    public function receipt(array $task)
+    {
+        echo __FUNCTION__ . ",id={$task['id']},createTime={$task['createTime']},count={$task['rule']['count']},runTime=" . date('Y-m-d H:i:s') . PHP_EOL;
+    }
+
+    public function timeout(array $task)
+    {
+        echo __FUNCTION__ . ",id={$task['id']},createTime={$task['createTime']},count={$task['rule']['count']},runTime=" . date('Y-m-d H:i:s') . PHP_EOL;
+    }
+
+    public function refund(array $task)
+    {
+        echo __FUNCTION__ . ",id={$task['id']},createTime={$task['createTime']},count={$task['rule']['count']},runTime=" . date('Y-m-d H:i:s') . PHP_EOL;
+    }
+
+    public function success(array $task)
+    {
+        var_dump($task);
+        echo "任务处理成功\n";
+    }
 }
 ```
