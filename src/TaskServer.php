@@ -24,6 +24,13 @@ class TaskServer extends DelayedTask
     public $pidFile = '';
 
     /**
+     * Debug mode.
+     *
+     * @var bool
+     */
+    public $debug = false;
+
+    /**
      * The PID of master process.
      *
      * @var int
@@ -177,6 +184,10 @@ class TaskServer extends DelayedTask
      */
     protected function daemonize()
     {
+        if ($this->debug) {
+            return;
+        }
+
         $pid = pcntl_fork();
         if ($pid === -1) {
             throw new Exception('fork fail');
@@ -263,6 +274,10 @@ class TaskServer extends DelayedTask
      */
     protected function resetStd()
     {
+        if ($this->debug) {
+            return;
+        }
+
         fclose(STDIN);
         fclose(STDOUT);
         fclose(STDERR);
