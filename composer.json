@@ -1,0 +1,25 @@
+{
+    "name": "sevming/delayed-task",
+    "type": "library",
+    "description": "",
+    "keywords": [],
+    "homepage": "https://github.com/sevming",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "sevming",
+            "email": "245562482@qq.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sevming\\DelayedTask\\": "src/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
