@@ -189,7 +189,6 @@ class DelayedTask
      * @param string $taskKey
      *
      * @return array|bool
-     * @throws RedisException
      */
     protected function lock(string $taskKey)
     {
@@ -210,7 +209,6 @@ class DelayedTask
      * @param array $lockData
      *
      * @return bool
-     * @throws RedisException
      */
     protected function unlock(array $lockData)
     {

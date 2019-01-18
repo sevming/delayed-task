@@ -372,11 +372,12 @@ class TaskServer extends DelayedTask
                     $redis = $this->getRedisInstance();
                     $taskPoolKey = $this->getTaskPoolKey();
                     $this->setProcessTitle('queue');
+                    $queueTaskPriority = array_reverse($this->queueTaskPriority, true);
 
                     while (1) {
                         pcntl_signal_dispatch();
 
-                        foreach ($this->queueTaskPriority as $priority => $nums) {
+                        foreach ($queueTaskPriority as $priority => $nums) {
                             $queueKey = $this->getQueueKey($priority);
                             // Process $nums tasks each time, avoiding the inability to handle higher priority tasks
                             while ($nums--) {
@@ -447,7 +448,7 @@ class TaskServer extends DelayedTask
         } else {
             $index = $task['rule']['count'];
             if (!isset($task['rule']['interval'][$index]) && !$task['rule']['persistent']) {
-                $task['status'] = static::TASK_STATUS_OK;
+                $task['status'] = static::TASK_STATUS_FAIL;
             } else {
                 $intervalTime = $task['rule']['interval'][$index] ?? end($task['rule']['interval']);
                 $delayTime = $task['delayTime'] + $intervalTime;
